@@ -1,0 +1,9 @@
+syntax = "proto3";
+package orenshva.cosmoslottery.cosmoslottery;
+
+option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
+
+message TxCounter {
+  uint64 count = 1; 
+  
+}

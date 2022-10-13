@@ -14,12 +14,21 @@
  */
 export type CosmoslotteryParams = object;
 
+export interface CosmoslotteryQueryGetTxCounterResponse {
+  TxCounter?: CosmoslotteryTxCounter;
+}
+
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface CosmoslotteryQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: CosmoslotteryParams;
+}
+
+export interface CosmoslotteryTxCounter {
+  /** @format uint64 */
+  count?: string;
 }
 
 export interface ProtobufAny {
@@ -240,6 +249,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<CosmoslotteryQueryParamsResponse, RpcStatus>({
       path: `/orenshva/CosmosLottery/cosmoslottery/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTxCounter
+   * @summary Queries a TxCounter by index.
+   * @request GET:/orenshva/CosmosLottery/cosmoslottery/tx_counter
+   */
+  queryTxCounter = (params: RequestParams = {}) =>
+    this.request<CosmoslotteryQueryGetTxCounterResponse, RpcStatus>({
+      path: `/orenshva/CosmosLottery/cosmoslottery/tx_counter`,
       method: "GET",
       format: "json",
       ...params,

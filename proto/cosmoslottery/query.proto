@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "cosmoslottery/params.proto";
+import "cosmoslottery/tx_counter.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
@@ -15,7 +16,11 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/orenshva/CosmosLottery/cosmoslottery/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a TxCounter by index.
+	rpc TxCounter(QueryGetTxCounterRequest) returns (QueryGetTxCounterResponse) {
+		option (google.api.http).get = "/orenshva/CosmosLottery/cosmoslottery/tx_counter";
+	}
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -27,4 +32,9 @@ message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false];
 }
 
+message QueryGetTxCounterRequest {}
+
+message QueryGetTxCounterResponse {
+	TxCounter TxCounter = 1 [(gogoproto.nullable) = false];
+}
 // this line is used by starport scaffolding # 3
