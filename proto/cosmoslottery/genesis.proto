@@ -1,0 +1,14 @@
+syntax = "proto3";
+package orenshva.cosmoslottery.cosmoslottery;
+
+import "gogoproto/gogo.proto";
+import "cosmoslottery/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
+
+// GenesisState defines the cosmoslottery module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
