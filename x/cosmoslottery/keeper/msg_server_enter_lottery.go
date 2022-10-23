@@ -70,5 +70,13 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 	k.SetBetChart(ctx, betChartEntry)
 	_ = ctx
 
+	// update the TX counter
+	currentTxCount, found := k.GetTxCounter(ctx)
+	if found == false {
+		panic("No TX counter. The lottery can't operate without one")
+	}
+	currentTxCount.Count += 1
+	k.SetTxCounter(ctx, currentTxCount)
+
 	return &types.MsgEnterLotteryResponse{}, nil
 }
