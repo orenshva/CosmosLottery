@@ -10,11 +10,12 @@ import (
 
 func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLottery) (*types.MsgEnterLotteryResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+	var userAlreadyBetted bool = false
 
-	// Check that the user isn't already participating in the lottery
-	_, found := k.GetBetChart(ctx, msg.GetCreator())
+	// Check that if the user isn't already participating in the lottery
+	userBetChart, found := k.GetBetChart(ctx, msg.GetCreator())
 	if found == true {
-		return nil, sdkerrors.Wrapf(types.ErrUserAlreadyBetted, "%s", msg.GetCreator())
+		userAlreadyBetted = true
 	}
 
 	// Check that the bet and lottery fee are valid
@@ -60,23 +61,32 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 		return nil, err
 	}
 
-	// Create a new bet chart entry
-	betChartEntry := types.BetChart{
-		AccountName: msg.Creator,
-		Bet:         msg.Bet,
+	if userAlreadyBetted == false {
+		// Bet from new user
+
+		// Create a new bet chart entry
+		newBetChartEntry := types.BetChart{
+			AccountName: msg.Creator,
+			Bet:         msg.Bet,
+		}
+
+		// update the bet chart
+		k.SetBetChart(ctx, newBetChartEntry)
+
+		// update the TX counter
+		currentTxCount, found := k.GetTxCounter(ctx)
+		if found == false {
+			panic("No TX counter. The lottery can't operate without one")
+		}
+		currentTxCount.Count += 1
+		k.SetTxCounter(ctx, currentTxCount)
+	} else {
+		// Bet from old user (bet substitution)
+		userBetChart.Bet = msg.GetBet()
+		k.SetBetChart(ctx, userBetChart)
 	}
 
-	// update the bet chart
-	k.SetBetChart(ctx, betChartEntry)
+	// ctx.EventManager().EmitEvent()
 	_ = ctx
-
-	// update the TX counter
-	currentTxCount, found := k.GetTxCounter(ctx)
-	if found == false {
-		panic("No TX counter. The lottery can't operate without one")
-	}
-	currentTxCount.Count += 1
-	k.SetTxCounter(ctx, currentTxCount)
-
 	return &types.MsgEnterLotteryResponse{}, nil
 }
