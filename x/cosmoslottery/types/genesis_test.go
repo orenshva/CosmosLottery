@@ -25,9 +25,31 @@ func TestGenesisState_Validate(t *testing.T) {
 				TxCounter: &types.TxCounter{
 					Count: 2,
 				},
+				BetChartList: []types.BetChart{
+					{
+						AccountName: "0",
+					},
+					{
+						AccountName: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated betChart",
+			genState: &types.GenesisState{
+				BetChartList: []types.BetChart{
+					{
+						AccountName: "0",
+					},
+					{
+						AccountName: "0",
+					},
+				},
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {

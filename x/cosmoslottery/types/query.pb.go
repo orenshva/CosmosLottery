@@ -6,7 +6,7 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	_ "github.com/cosmos/cosmos-sdk/types/query"
+	query "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/gogo/protobuf/gogoproto"
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
@@ -193,42 +193,242 @@ func (m *QueryGetTxCounterResponse) GetTxCounter() TxCounter {
 	return TxCounter{}
 }
 
+type QueryGetBetChartRequest struct {
+	AccountName string `protobuf:"bytes,1,opt,name=accountName,proto3" json:"accountName,omitempty"`
+}
+
+func (m *QueryGetBetChartRequest) Reset()         { *m = QueryGetBetChartRequest{} }
+func (m *QueryGetBetChartRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetBetChartRequest) ProtoMessage()    {}
+func (*QueryGetBetChartRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ccd01a62023f0f1f, []int{4}
+}
+func (m *QueryGetBetChartRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetBetChartRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetBetChartRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetBetChartRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetBetChartRequest.Merge(m, src)
+}
+func (m *QueryGetBetChartRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetBetChartRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetBetChartRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetBetChartRequest proto.InternalMessageInfo
+
+func (m *QueryGetBetChartRequest) GetAccountName() string {
+	if m != nil {
+		return m.AccountName
+	}
+	return ""
+}
+
+type QueryGetBetChartResponse struct {
+	BetChart BetChart `protobuf:"bytes,1,opt,name=betChart,proto3" json:"betChart"`
+}
+
+func (m *QueryGetBetChartResponse) Reset()         { *m = QueryGetBetChartResponse{} }
+func (m *QueryGetBetChartResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetBetChartResponse) ProtoMessage()    {}
+func (*QueryGetBetChartResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ccd01a62023f0f1f, []int{5}
+}
+func (m *QueryGetBetChartResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetBetChartResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetBetChartResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetBetChartResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetBetChartResponse.Merge(m, src)
+}
+func (m *QueryGetBetChartResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetBetChartResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetBetChartResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetBetChartResponse proto.InternalMessageInfo
+
+func (m *QueryGetBetChartResponse) GetBetChart() BetChart {
+	if m != nil {
+		return m.BetChart
+	}
+	return BetChart{}
+}
+
+type QueryAllBetChartRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllBetChartRequest) Reset()         { *m = QueryAllBetChartRequest{} }
+func (m *QueryAllBetChartRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllBetChartRequest) ProtoMessage()    {}
+func (*QueryAllBetChartRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ccd01a62023f0f1f, []int{6}
+}
+func (m *QueryAllBetChartRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllBetChartRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllBetChartRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllBetChartRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllBetChartRequest.Merge(m, src)
+}
+func (m *QueryAllBetChartRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllBetChartRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllBetChartRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllBetChartRequest proto.InternalMessageInfo
+
+func (m *QueryAllBetChartRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllBetChartResponse struct {
+	BetChart   []BetChart          `protobuf:"bytes,1,rep,name=betChart,proto3" json:"betChart"`
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllBetChartResponse) Reset()         { *m = QueryAllBetChartResponse{} }
+func (m *QueryAllBetChartResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllBetChartResponse) ProtoMessage()    {}
+func (*QueryAllBetChartResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ccd01a62023f0f1f, []int{7}
+}
+func (m *QueryAllBetChartResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllBetChartResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllBetChartResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllBetChartResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllBetChartResponse.Merge(m, src)
+}
+func (m *QueryAllBetChartResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllBetChartResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllBetChartResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllBetChartResponse proto.InternalMessageInfo
+
+func (m *QueryAllBetChartResponse) GetBetChart() []BetChart {
+	if m != nil {
+		return m.BetChart
+	}
+	return nil
+}
+
+func (m *QueryAllBetChartResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryParamsResponse")
 	proto.RegisterType((*QueryGetTxCounterRequest)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryGetTxCounterRequest")
 	proto.RegisterType((*QueryGetTxCounterResponse)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryGetTxCounterResponse")
+	proto.RegisterType((*QueryGetBetChartRequest)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryGetBetChartRequest")
+	proto.RegisterType((*QueryGetBetChartResponse)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryGetBetChartResponse")
+	proto.RegisterType((*QueryAllBetChartRequest)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryAllBetChartRequest")
+	proto.RegisterType((*QueryAllBetChartResponse)(nil), "orenshva.cosmoslottery.cosmoslottery.QueryAllBetChartResponse")
 }
 
 func init() { proto.RegisterFile("cosmoslottery/query.proto", fileDescriptor_ccd01a62023f0f1f) }
 
 var fileDescriptor_ccd01a62023f0f1f = []byte{
-	// 396 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4c, 0xce, 0x2f, 0xce,
-	0xcd, 0x2f, 0xce, 0xc9, 0x2f, 0x29, 0x49, 0x2d, 0xaa, 0xd4, 0x2f, 0x2c, 0x4d, 0x2d, 0xaa, 0xd4,
-	0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x52, 0xc9, 0x2f, 0x4a, 0xcd, 0x2b, 0xce, 0x28, 0x4b, 0xd4,
-	0x43, 0x51, 0x83, 0xca, 0x93, 0x12, 0x49, 0xcf, 0x4f, 0xcf, 0x07, 0x6b, 0xd0, 0x07, 0xb1, 0x20,
-	0x7a, 0xa5, 0x64, 0xd2, 0xf3, 0xf3, 0xd3, 0x73, 0x52, 0xf5, 0x13, 0x0b, 0x32, 0xf5, 0x13, 0xf3,
-	0xf2, 0xf2, 0x4b, 0x12, 0x4b, 0x32, 0xf3, 0xf3, 0x8a, 0xa1, 0xb2, 0x5a, 0x10, 0x23, 0xf4, 0x93,
-	0x12, 0x8b, 0x53, 0x21, 0x56, 0xea, 0x97, 0x19, 0x26, 0xa5, 0x96, 0x24, 0x1a, 0xea, 0x17, 0x24,
-	0xa6, 0x67, 0xe6, 0x81, 0x15, 0x43, 0xd5, 0x4a, 0xa1, 0x3a, 0xb0, 0x20, 0xb1, 0x28, 0x31, 0x17,
-	0x66, 0x8e, 0x1c, 0xaa, 0x5c, 0x49, 0x45, 0x7c, 0x72, 0x7e, 0x69, 0x5e, 0x49, 0x6a, 0x11, 0x44,
-	0x5e, 0x49, 0x84, 0x4b, 0x28, 0x10, 0x64, 0x7a, 0x00, 0x58, 0x53, 0x50, 0x6a, 0x61, 0x69, 0x6a,
-	0x71, 0x89, 0x52, 0x22, 0x97, 0x30, 0x8a, 0x68, 0x71, 0x41, 0x7e, 0x5e, 0x71, 0xaa, 0x90, 0x17,
-	0x17, 0x1b, 0xc4, 0x70, 0x09, 0x46, 0x05, 0x46, 0x0d, 0x6e, 0x23, 0x1d, 0x3d, 0x62, 0xfc, 0xaf,
-	0x07, 0x31, 0xc5, 0x89, 0xe5, 0xc4, 0x3d, 0x79, 0x86, 0x20, 0xa8, 0x09, 0x4a, 0x52, 0x5c, 0x12,
-	0x60, 0x2b, 0xdc, 0x53, 0x4b, 0x42, 0x2a, 0x9c, 0x21, 0x6e, 0x82, 0x59, 0x5f, 0xc0, 0x25, 0x89,
-	0x45, 0x0e, 0xea, 0x88, 0x60, 0x2e, 0x4e, 0xb8, 0x20, 0xd4, 0x1d, 0xfa, 0xc4, 0xb9, 0x03, 0xae,
-	0x0d, 0xea, 0x14, 0x84, 0x39, 0x46, 0x6d, 0xcc, 0x5c, 0xac, 0x60, 0x2b, 0x85, 0x36, 0x33, 0x72,
-	0xb1, 0x41, 0x1c, 0x2c, 0x64, 0x41, 0x9c, 0xb1, 0x98, 0xe1, 0x27, 0x65, 0x49, 0x86, 0x4e, 0x88,
-	0xf7, 0x94, 0x4c, 0x9a, 0x2e, 0x3f, 0x99, 0xcc, 0xa4, 0x27, 0xa4, 0xa3, 0x0f, 0x33, 0x42, 0xdf,
-	0x19, 0xac, 0xc9, 0x07, 0x1a, 0x85, 0xd8, 0x22, 0x5b, 0xe8, 0x18, 0x23, 0x52, 0xa8, 0x08, 0xd9,
-	0x91, 0x60, 0x3d, 0x96, 0xf0, 0x97, 0xb2, 0x27, 0x5b, 0x3f, 0xd4, 0x13, 0x16, 0x60, 0x4f, 0x18,
-	0x09, 0x19, 0x10, 0xe7, 0x09, 0x44, 0xaa, 0x74, 0x0a, 0x3c, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23,
-	0x39, 0xc6, 0x07, 0x8f, 0xe4, 0x18, 0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1, 0xc6,
-	0x63, 0x39, 0x86, 0x28, 0xf3, 0xf4, 0xcc, 0x92, 0x8c, 0xd2, 0x24, 0xbd, 0xe4, 0xfc, 0x5c, 0x5c,
-	0xa6, 0x56, 0xa0, 0x9b, 0x5b, 0x59, 0x90, 0x5a, 0x9c, 0xc4, 0x06, 0x4e, 0xe9, 0xc6, 0x80, 0x00,
-	0x00, 0x00, 0xff, 0xff, 0xd0, 0xe9, 0xc8, 0x9c, 0xc8, 0x03, 0x00, 0x00,
+	// 589 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x95, 0xd1, 0x6a, 0x13, 0x41,
+	0x14, 0x86, 0x33, 0x55, 0x43, 0x3b, 0xb9, 0x1b, 0x0b, 0xb6, 0x8b, 0xae, 0x65, 0x11, 0x15, 0x29,
+	0x33, 0x26, 0x0a, 0xad, 0x48, 0x5b, 0x9a, 0xa0, 0x05, 0x11, 0x49, 0xa3, 0x57, 0xde, 0x94, 0xd9,
+	0x30, 0x6c, 0x02, 0x9b, 0x9d, 0xed, 0xee, 0xa4, 0x24, 0x88, 0x37, 0x3e, 0x81, 0xe0, 0x13, 0xf8,
+	0x0c, 0xe2, 0x23, 0x28, 0xbd, 0x0c, 0x78, 0xe3, 0x95, 0x48, 0xe2, 0x83, 0x48, 0x66, 0xce, 0x26,
+	0xd9, 0x34, 0xe2, 0x6e, 0x7a, 0xd7, 0xce, 0xd9, 0xf3, 0xff, 0xdf, 0x3f, 0x7b, 0xce, 0x06, 0x6f,
+	0x36, 0x65, 0xdc, 0x91, 0xb1, 0x2f, 0x95, 0x12, 0x51, 0x9f, 0x9d, 0x76, 0x45, 0xd4, 0xa7, 0x61,
+	0x24, 0x95, 0x24, 0x77, 0x64, 0x24, 0x82, 0xb8, 0x75, 0xc6, 0x69, 0xea, 0x99, 0xf4, 0x7f, 0xd6,
+	0xba, 0x27, 0x3d, 0xa9, 0x1b, 0xd8, 0xf8, 0x2f, 0xd3, 0x6b, 0xdd, 0xf4, 0xa4, 0xf4, 0x7c, 0xc1,
+	0x78, 0xd8, 0x66, 0x3c, 0x08, 0xa4, 0xe2, 0xaa, 0x2d, 0x83, 0x18, 0xaa, 0x0f, 0x8c, 0x04, 0x73,
+	0x79, 0x2c, 0x8c, 0x25, 0x3b, 0x2b, 0xbb, 0x42, 0xf1, 0x32, 0x0b, 0xb9, 0xd7, 0x0e, 0xf4, 0xc3,
+	0xf0, 0xac, 0x95, 0x06, 0x0c, 0x79, 0xc4, 0x3b, 0x89, 0x8e, 0x9d, 0xae, 0xa9, 0xde, 0x49, 0x53,
+	0x76, 0x03, 0x25, 0x22, 0xa8, 0xdf, 0x4a, 0xd7, 0x5d, 0xa1, 0x4e, 0x9a, 0x2d, 0x1e, 0x29, 0x53,
+	0x76, 0xd6, 0x31, 0x39, 0x1e, 0x9b, 0xd7, 0xb5, 0x66, 0x43, 0x9c, 0x76, 0x45, 0xac, 0x1c, 0x8e,
+	0xaf, 0xa7, 0x4e, 0xe3, 0x50, 0x06, 0xb1, 0x20, 0x2f, 0x70, 0xd1, 0x78, 0x6f, 0xa0, 0x2d, 0x74,
+	0xbf, 0x54, 0xd9, 0xa6, 0x59, 0xae, 0x87, 0x1a, 0x95, 0xea, 0xd5, 0xf3, 0x5f, 0xb7, 0x0b, 0x0d,
+	0x50, 0x70, 0x2c, 0xbc, 0xa1, 0x2d, 0x8e, 0x84, 0x7a, 0xd3, 0xab, 0x19, 0xe4, 0xc4, 0x3e, 0xc4,
+	0x9b, 0x0b, 0x6a, 0x00, 0xf1, 0x1a, 0xaf, 0x4d, 0x0e, 0x81, 0x83, 0x65, 0xe3, 0x98, 0xb4, 0x01,
+	0xca, 0x54, 0xc7, 0x79, 0x8a, 0x6f, 0x24, 0x8e, 0x55, 0xa1, 0x6a, 0xe3, 0x0b, 0x02, 0x18, 0xb2,
+	0x85, 0x4b, 0xbc, 0xa9, 0xef, 0xf4, 0x15, 0xef, 0x08, 0xed, 0xb8, 0xd6, 0x98, 0x3d, 0x72, 0xfc,
+	0x69, 0x94, 0x69, 0x33, 0xd0, 0xd6, 0xf1, 0xaa, 0x0b, 0x67, 0x00, 0x4b, 0xb3, 0xc1, 0x26, 0x4a,
+	0xc0, 0x3a, 0x51, 0x71, 0x38, 0xa0, 0x1e, 0xfa, 0xfe, 0x3c, 0xea, 0x73, 0x8c, 0xa7, 0xb3, 0x03,
+	0x76, 0x77, 0x41, 0x97, 0x8e, 0x07, 0x8d, 0x9a, 0xd9, 0x86, 0x41, 0xa3, 0x75, 0xee, 0x09, 0xe8,
+	0x6d, 0xcc, 0x74, 0x3a, 0x5f, 0x11, 0x24, 0x4a, 0x79, 0x2c, 0x4c, 0x74, 0xe5, 0xf2, 0x89, 0xc8,
+	0x51, 0x0a, 0x7b, 0x45, 0x63, 0xdf, 0xfb, 0x2f, 0xb6, 0xc1, 0x99, 0xe5, 0xae, 0x7c, 0x2e, 0xe2,
+	0x6b, 0x9a, 0x9b, 0x7c, 0x41, 0xb8, 0x68, 0xc6, 0x8e, 0xec, 0x66, 0xa3, 0xbb, 0xb8, 0x05, 0xd6,
+	0x93, 0x25, 0x3a, 0x0d, 0x95, 0xf3, 0xf8, 0xc3, 0x8f, 0x3f, 0x9f, 0x56, 0x28, 0xd9, 0x66, 0x89,
+	0x04, 0xab, 0xe9, 0xa6, 0x97, 0xb0, 0x87, 0x8b, 0x36, 0x9a, 0x7c, 0x47, 0x33, 0xb3, 0x4d, 0xf6,
+	0x73, 0xd8, 0x2f, 0xd8, 0x22, 0xeb, 0x60, 0xe9, 0x7e, 0x08, 0xb1, 0xab, 0x43, 0x54, 0xc8, 0xc3,
+	0x6c, 0x21, 0xa6, 0x9f, 0x1e, 0x32, 0x40, 0x78, 0x35, 0x79, 0xdd, 0x64, 0x2f, 0x1f, 0xc7, 0xdc,
+	0x50, 0x5b, 0xfb, 0xcb, 0xb6, 0x43, 0x8a, 0x67, 0x3a, 0xc5, 0x01, 0xd9, 0xcb, 0x96, 0x62, 0xf2,
+	0x81, 0x64, 0xef, 0x66, 0x76, 0xfc, 0x3d, 0xf9, 0x86, 0x70, 0x29, 0xd1, 0x3e, 0xf4, 0xfd, 0x5c,
+	0xa9, 0x2e, 0xae, 0x6a, 0xae, 0x54, 0x0b, 0xb6, 0xd0, 0xd9, 0xd1, 0xa9, 0xca, 0x84, 0xe5, 0x4c,
+	0x55, 0x3d, 0x3e, 0x1f, 0xda, 0x68, 0x30, 0xb4, 0xd1, 0xef, 0xa1, 0x8d, 0x3e, 0x8e, 0xec, 0xc2,
+	0x60, 0x64, 0x17, 0x7e, 0x8e, 0xec, 0xc2, 0xdb, 0x1d, 0xaf, 0xad, 0x5a, 0x5d, 0x97, 0x36, 0x65,
+	0xe7, 0x5f, 0xa2, 0xbd, 0xf9, 0x57, 0xde, 0x0f, 0x45, 0xec, 0x16, 0xf5, 0x4f, 0xc9, 0xa3, 0xbf,
+	0x01, 0x00, 0x00, 0xff, 0xff, 0x96, 0x54, 0xdd, 0x40, 0x48, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -247,6 +447,10 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Queries a TxCounter by index.
 	TxCounter(ctx context.Context, in *QueryGetTxCounterRequest, opts ...grpc.CallOption) (*QueryGetTxCounterResponse, error)
+	// Queries a BetChart by index.
+	BetChart(ctx context.Context, in *QueryGetBetChartRequest, opts ...grpc.CallOption) (*QueryGetBetChartResponse, error)
+	// Queries a list of BetChart items.
+	BetChartAll(ctx context.Context, in *QueryAllBetChartRequest, opts ...grpc.CallOption) (*QueryAllBetChartResponse, error)
 }
 
 type queryClient struct {
@@ -275,12 +479,34 @@ func (c *queryClient) TxCounter(ctx context.Context, in *QueryGetTxCounterReques
 	return out, nil
 }
 
+func (c *queryClient) BetChart(ctx context.Context, in *QueryGetBetChartRequest, opts ...grpc.CallOption) (*QueryGetBetChartResponse, error) {
+	out := new(QueryGetBetChartResponse)
+	err := c.cc.Invoke(ctx, "/orenshva.cosmoslottery.cosmoslottery.Query/BetChart", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BetChartAll(ctx context.Context, in *QueryAllBetChartRequest, opts ...grpc.CallOption) (*QueryAllBetChartResponse, error) {
+	out := new(QueryAllBetChartResponse)
+	err := c.cc.Invoke(ctx, "/orenshva.cosmoslottery.cosmoslottery.Query/BetChartAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Queries a TxCounter by index.
 	TxCounter(context.Context, *QueryGetTxCounterRequest) (*QueryGetTxCounterResponse, error)
+	// Queries a BetChart by index.
+	BetChart(context.Context, *QueryGetBetChartRequest) (*QueryGetBetChartResponse, error)
+	// Queries a list of BetChart items.
+	BetChartAll(context.Context, *QueryAllBetChartRequest) (*QueryAllBetChartResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -292,6 +518,12 @@ func (*UnimplementedQueryServer) Params(ctx context.Context, req *QueryParamsReq
 }
 func (*UnimplementedQueryServer) TxCounter(ctx context.Context, req *QueryGetTxCounterRequest) (*QueryGetTxCounterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TxCounter not implemented")
+}
+func (*UnimplementedQueryServer) BetChart(ctx context.Context, req *QueryGetBetChartRequest) (*QueryGetBetChartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BetChart not implemented")
+}
+func (*UnimplementedQueryServer) BetChartAll(ctx context.Context, req *QueryAllBetChartRequest) (*QueryAllBetChartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BetChartAll not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -334,6 +566,42 @@ func _Query_TxCounter_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_BetChart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetBetChartRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BetChart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/orenshva.cosmoslottery.cosmoslottery.Query/BetChart",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BetChart(ctx, req.(*QueryGetBetChartRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BetChartAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllBetChartRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BetChartAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/orenshva.cosmoslottery.cosmoslottery.Query/BetChartAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BetChartAll(ctx, req.(*QueryAllBetChartRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "orenshva.cosmoslottery.cosmoslottery.Query",
 	HandlerType: (*QueryServer)(nil),
@@ -345,6 +613,14 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TxCounter",
 			Handler:    _Query_TxCounter_Handler,
+		},
+		{
+			MethodName: "BetChart",
+			Handler:    _Query_BetChart_Handler,
+		},
+		{
+			MethodName: "BetChartAll",
+			Handler:    _Query_BetChartAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -463,6 +739,153 @@ func (m *QueryGetTxCounterResponse) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryGetBetChartRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetBetChartRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetBetChartRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.AccountName) > 0 {
+		i -= len(m.AccountName)
+		copy(dAtA[i:], m.AccountName)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.AccountName)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetBetChartResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetBetChartResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetBetChartResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.BetChart.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllBetChartRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllBetChartRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllBetChartRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllBetChartResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllBetChartResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllBetChartResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.BetChart) > 0 {
+		for iNdEx := len(m.BetChart) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.BetChart[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -511,6 +934,62 @@ func (m *QueryGetTxCounterResponse) Size() (n int) {
 	_ = l
 	l = m.TxCounter.Size()
 	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryGetBetChartRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.AccountName)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetBetChartResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.BetChart.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllBetChartRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllBetChartResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.BetChart) > 0 {
+		for _, e := range m.BetChart {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
 	return n
 }
 
@@ -762,6 +1241,377 @@ func (m *QueryGetTxCounterResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if err := m.TxCounter.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetBetChartRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetBetChartRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetBetChartRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AccountName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.AccountName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetBetChartResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetBetChartResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetBetChartResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BetChart", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.BetChart.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllBetChartRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllBetChartRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllBetChartRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllBetChartResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllBetChartResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllBetChartResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BetChart", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.BetChart = append(m.BetChart, BetChart{})
+			if err := m.BetChart[len(m.BetChart)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

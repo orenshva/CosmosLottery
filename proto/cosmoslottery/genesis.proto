@@ -4,6 +4,7 @@ package orenshva.cosmoslottery.cosmoslottery;
 import "gogoproto/gogo.proto";
 import "cosmoslottery/params.proto";
 import "cosmoslottery/tx_counter.proto";
+import "cosmoslottery/bet_chart.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
@@ -12,5 +13,6 @@ option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   TxCounter txCounter = 2;
+  repeated BetChart betChartList = 3 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

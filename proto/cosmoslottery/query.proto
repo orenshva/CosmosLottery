@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "cosmoslottery/params.proto";
 import "cosmoslottery/tx_counter.proto";
+import "cosmoslottery/bet_chart.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
@@ -20,6 +21,16 @@ service Query {
 	rpc TxCounter(QueryGetTxCounterRequest) returns (QueryGetTxCounterResponse) {
 		option (google.api.http).get = "/orenshva/CosmosLottery/cosmoslottery/tx_counter";
 	}
+// Queries a BetChart by index.
+	rpc BetChart(QueryGetBetChartRequest) returns (QueryGetBetChartResponse) {
+		option (google.api.http).get = "/orenshva/CosmosLottery/cosmoslottery/bet_chart/{accountName}";
+	}
+
+	// Queries a list of BetChart items.
+	rpc BetChartAll(QueryAllBetChartRequest) returns (QueryAllBetChartResponse) {
+		option (google.api.http).get = "/orenshva/CosmosLottery/cosmoslottery/bet_chart";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -37,4 +48,22 @@ message QueryGetTxCounterRequest {}
 message QueryGetTxCounterResponse {
 	TxCounter TxCounter = 1 [(gogoproto.nullable) = false];
 }
+message QueryGetBetChartRequest {
+	  string accountName = 1;
+
+}
+
+message QueryGetBetChartResponse {
+	BetChart betChart = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllBetChartRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllBetChartResponse {
+	repeated BetChart betChart = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
 // this line is used by starport scaffolding # 3

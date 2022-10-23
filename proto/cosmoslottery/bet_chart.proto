@@ -1,0 +1,11 @@
+syntax = "proto3";
+package orenshva.cosmoslottery.cosmoslottery;
+
+option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
+
+message BetChart {
+  string accountName = 1; 
+  uint64 bet = 2; 
+  
+}
+

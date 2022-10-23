@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Params } from "../cosmoslottery/params";
 import { TxCounter } from "../cosmoslottery/tx_counter";
+import { BetChart } from "../cosmoslottery/bet_chart";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "orenshva.cosmoslottery.cosmoslottery";
@@ -8,8 +9,9 @@ export const protobufPackage = "orenshva.cosmoslottery.cosmoslottery";
 /** GenesisState defines the cosmoslottery module's genesis state. */
 export interface GenesisState {
   params: Params | undefined;
-  /** this line is used by starport scaffolding # genesis/proto/state */
   txCounter: TxCounter | undefined;
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  betChartList: BetChart[];
 }
 
 const baseGenesisState: object = {};
@@ -22,6 +24,9 @@ export const GenesisState = {
     if (message.txCounter !== undefined) {
       TxCounter.encode(message.txCounter, writer.uint32(18).fork()).ldelim();
     }
+    for (const v of message.betChartList) {
+      BetChart.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -29,6 +34,7 @@ export const GenesisState = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
+    message.betChartList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -37,6 +43,9 @@ export const GenesisState = {
           break;
         case 2:
           message.txCounter = TxCounter.decode(reader, reader.uint32());
+          break;
+        case 3:
+          message.betChartList.push(BetChart.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -48,6 +57,7 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
+    message.betChartList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -57,6 +67,11 @@ export const GenesisState = {
       message.txCounter = TxCounter.fromJSON(object.txCounter);
     } else {
       message.txCounter = undefined;
+    }
+    if (object.betChartList !== undefined && object.betChartList !== null) {
+      for (const e of object.betChartList) {
+        message.betChartList.push(BetChart.fromJSON(e));
+      }
     }
     return message;
   },
@@ -69,11 +84,19 @@ export const GenesisState = {
       (obj.txCounter = message.txCounter
         ? TxCounter.toJSON(message.txCounter)
         : undefined);
+    if (message.betChartList) {
+      obj.betChartList = message.betChartList.map((e) =>
+        e ? BetChart.toJSON(e) : undefined
+      );
+    } else {
+      obj.betChartList = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
+    message.betChartList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -83,6 +106,11 @@ export const GenesisState = {
       message.txCounter = TxCounter.fromPartial(object.txCounter);
     } else {
       message.txCounter = undefined;
+    }
+    if (object.betChartList !== undefined && object.betChartList !== null) {
+      for (const e of object.betChartList) {
+        message.betChartList.push(BetChart.fromPartial(e));
+      }
     }
     return message;
   },

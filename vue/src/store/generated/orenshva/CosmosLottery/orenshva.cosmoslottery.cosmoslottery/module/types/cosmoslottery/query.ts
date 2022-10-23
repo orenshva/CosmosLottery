@@ -2,6 +2,11 @@
 import { Reader, Writer } from "protobufjs/minimal";
 import { Params } from "../cosmoslottery/params";
 import { TxCounter } from "../cosmoslottery/tx_counter";
+import { BetChart } from "../cosmoslottery/bet_chart";
+import {
+  PageRequest,
+  PageResponse,
+} from "../cosmos/base/query/v1beta1/pagination";
 
 export const protobufPackage = "orenshva.cosmoslottery.cosmoslottery";
 
@@ -18,6 +23,23 @@ export interface QueryGetTxCounterRequest {}
 
 export interface QueryGetTxCounterResponse {
   TxCounter: TxCounter | undefined;
+}
+
+export interface QueryGetBetChartRequest {
+  accountName: string;
+}
+
+export interface QueryGetBetChartResponse {
+  betChart: BetChart | undefined;
+}
+
+export interface QueryAllBetChartRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllBetChartResponse {
+  betChart: BetChart[];
+  pagination: PageResponse | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -241,6 +263,315 @@ export const QueryGetTxCounterResponse = {
   },
 };
 
+const baseQueryGetBetChartRequest: object = { accountName: "" };
+
+export const QueryGetBetChartRequest = {
+  encode(
+    message: QueryGetBetChartRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.accountName !== "") {
+      writer.uint32(10).string(message.accountName);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetBetChartRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetBetChartRequest,
+    } as QueryGetBetChartRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.accountName = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetBetChartRequest {
+    const message = {
+      ...baseQueryGetBetChartRequest,
+    } as QueryGetBetChartRequest;
+    if (object.accountName !== undefined && object.accountName !== null) {
+      message.accountName = String(object.accountName);
+    } else {
+      message.accountName = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetBetChartRequest): unknown {
+    const obj: any = {};
+    message.accountName !== undefined &&
+      (obj.accountName = message.accountName);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetBetChartRequest>
+  ): QueryGetBetChartRequest {
+    const message = {
+      ...baseQueryGetBetChartRequest,
+    } as QueryGetBetChartRequest;
+    if (object.accountName !== undefined && object.accountName !== null) {
+      message.accountName = object.accountName;
+    } else {
+      message.accountName = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetBetChartResponse: object = {};
+
+export const QueryGetBetChartResponse = {
+  encode(
+    message: QueryGetBetChartResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.betChart !== undefined) {
+      BetChart.encode(message.betChart, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetBetChartResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetBetChartResponse,
+    } as QueryGetBetChartResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.betChart = BetChart.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetBetChartResponse {
+    const message = {
+      ...baseQueryGetBetChartResponse,
+    } as QueryGetBetChartResponse;
+    if (object.betChart !== undefined && object.betChart !== null) {
+      message.betChart = BetChart.fromJSON(object.betChart);
+    } else {
+      message.betChart = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetBetChartResponse): unknown {
+    const obj: any = {};
+    message.betChart !== undefined &&
+      (obj.betChart = message.betChart
+        ? BetChart.toJSON(message.betChart)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetBetChartResponse>
+  ): QueryGetBetChartResponse {
+    const message = {
+      ...baseQueryGetBetChartResponse,
+    } as QueryGetBetChartResponse;
+    if (object.betChart !== undefined && object.betChart !== null) {
+      message.betChart = BetChart.fromPartial(object.betChart);
+    } else {
+      message.betChart = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllBetChartRequest: object = {};
+
+export const QueryAllBetChartRequest = {
+  encode(
+    message: QueryAllBetChartRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllBetChartRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllBetChartRequest,
+    } as QueryAllBetChartRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllBetChartRequest {
+    const message = {
+      ...baseQueryAllBetChartRequest,
+    } as QueryAllBetChartRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllBetChartRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllBetChartRequest>
+  ): QueryAllBetChartRequest {
+    const message = {
+      ...baseQueryAllBetChartRequest,
+    } as QueryAllBetChartRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllBetChartResponse: object = {};
+
+export const QueryAllBetChartResponse = {
+  encode(
+    message: QueryAllBetChartResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.betChart) {
+      BetChart.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllBetChartResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllBetChartResponse,
+    } as QueryAllBetChartResponse;
+    message.betChart = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.betChart.push(BetChart.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllBetChartResponse {
+    const message = {
+      ...baseQueryAllBetChartResponse,
+    } as QueryAllBetChartResponse;
+    message.betChart = [];
+    if (object.betChart !== undefined && object.betChart !== null) {
+      for (const e of object.betChart) {
+        message.betChart.push(BetChart.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllBetChartResponse): unknown {
+    const obj: any = {};
+    if (message.betChart) {
+      obj.betChart = message.betChart.map((e) =>
+        e ? BetChart.toJSON(e) : undefined
+      );
+    } else {
+      obj.betChart = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllBetChartResponse>
+  ): QueryAllBetChartResponse {
+    const message = {
+      ...baseQueryAllBetChartResponse,
+    } as QueryAllBetChartResponse;
+    message.betChart = [];
+    if (object.betChart !== undefined && object.betChart !== null) {
+      for (const e of object.betChart) {
+        message.betChart.push(BetChart.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -249,6 +580,12 @@ export interface Query {
   TxCounter(
     request: QueryGetTxCounterRequest
   ): Promise<QueryGetTxCounterResponse>;
+  /** Queries a BetChart by index. */
+  BetChart(request: QueryGetBetChartRequest): Promise<QueryGetBetChartResponse>;
+  /** Queries a list of BetChart items. */
+  BetChartAll(
+    request: QueryAllBetChartRequest
+  ): Promise<QueryAllBetChartResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -277,6 +614,34 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryGetTxCounterResponse.decode(new Reader(data))
+    );
+  }
+
+  BetChart(
+    request: QueryGetBetChartRequest
+  ): Promise<QueryGetBetChartResponse> {
+    const data = QueryGetBetChartRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "orenshva.cosmoslottery.cosmoslottery.Query",
+      "BetChart",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetBetChartResponse.decode(new Reader(data))
+    );
+  }
+
+  BetChartAll(
+    request: QueryAllBetChartRequest
+  ): Promise<QueryAllBetChartResponse> {
+    const data = QueryAllBetChartRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "orenshva.cosmoslottery.cosmoslottery.Query",
+      "BetChartAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllBetChartResponse.decode(new Reader(data))
     );
   }
 }
