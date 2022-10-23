@@ -29820,8 +29820,8 @@ paths:
             type: object
             properties:
               params:
-                description: params holds all the parameters of this module.
                 type: object
+                description: Params defines the parameters for the module.
             description: >-
               QueryParamsResponse is response type for the Query/Params RPC
               method.
@@ -51588,6 +51588,8 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  orenshva.cosmoslottery.cosmoslottery.MsgEnterLotteryResponse:
+    type: object
   orenshva.cosmoslottery.cosmoslottery.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -51604,8 +51606,8 @@ definitions:
     type: object
     properties:
       params:
-        description: params holds all the parameters of this module.
         type: object
+        description: Params defines the parameters for the module.
     description: QueryParamsResponse is response type for the Query/Params RPC method.
   orenshva.cosmoslottery.cosmoslottery.TxCounter:
     type: object
