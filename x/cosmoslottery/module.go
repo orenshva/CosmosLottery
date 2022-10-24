@@ -180,18 +180,29 @@ func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.Val
 		panic("No TX counter. The lottery can't operate without one")
 	}
 
+	// get fee counter
+	feeCounter, found := am.keeper.GetFeeCounter(ctx)
+	if found == false {
+		panic("No fee counter, can't calculate award")
+	}
+
+	// get the bet chart
+	completeBetChart := am.keeper.GetAllBetChart(ctx)
+
 	// check TxCounter
 	if currentTxCount.Count >= 10 {
 		concatBets := ""
-		totalBetsInThisRound := 0
-		// get the bet chart
-		completeBetChart := am.keeper.GetAllBetChart(ctx)
+		var totalBetsInThisRound uint64 = 0
 
-		// iterate over all the bet chart entries and append the placed bets
+		/* iterate over all the bet chart entries and then:
+		1. save the total amount of bets in this round
+		2. append the placed bets to get the value to be hashed
+		3. remove the bet entry from the store (so it won't persist to the next lottery) */
 		for _, betChartEntry := range completeBetChart {
 			tempBet := betChartEntry.GetBet()
-			totalBetsInThisRound += int(tempBet)
+			totalBetsInThisRound += tempBet
 			concatBets += strconv.Itoa(int(tempBet))
+			am.keeper.RemoveBetChart(ctx, betChartEntry.GetAccountName())
 		}
 
 		// hash the result
@@ -238,15 +249,19 @@ func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.Val
 			payoutAmount := lotteryPoolFunds.Amount
 			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", payoutAmount)))
 		} else if userHasLargestBet == false && userHasLowestBet == false {
-			// the winner has a middle-sized bet
-			//payoutAmount := totalBetsInThisRound -
-			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", payoutAmount)))
+			// the winner has a mid-sized bet
+			feeCount := feeCounter.GetCount()
+			payoutAmount := totalBetsInThisRound - feeCount*types.LotteryFee.Amount.Uint64()
+			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", sdk.NewInt(int64(payoutAmount)))))
 		}
 
 		// Zero out TxCounter
 		currentTxCount.Count = 0
 		am.keeper.SetTxCounter(ctx, currentTxCount)
 
+		// Zero out FeeCounter
+		feeCounter.Count = 0
+		am.keeper.SetFeeCounter(ctx, feeCounter)
 	}
 
 funcend:
