@@ -175,8 +175,7 @@ func (am AppModule) BeginBlock(_ sdk.Context, _ abci.RequestBeginBlock) {}
 // returns no validator updates.
 func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.ValidatorUpdate {
 	// get TxCounter
-	// initTxCounter := types.TxCounter{Count: 0}
-	// am.keeper.SetTxCounter(ctx, initTxCounter)
+
 	currentTxCount, found := am.keeper.GetTxCounter(ctx)
 	if found == false {
 		panic("No TX counter. The lottery can't operate without one")
@@ -192,7 +191,7 @@ func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.Val
 	completeBetChart := am.keeper.GetAllBetChart(ctx)
 
 	// check TxCounter
-	if currentTxCount.Count >= 10 {
+	if currentTxCount.Count >= 3 {
 		concatBets := ""
 		var totalBetsInThisRound uint64 = 0
 
@@ -240,10 +239,7 @@ func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.Val
 		}
 
 		// get the amount of money in the lottery pool
-		moduleAddress, err := sdk.AccAddressFromBech32(types.ModuleName)
-		if err != nil {
-			panic("No module account (no lottery pool)")
-		}
+		moduleAddress := am.accountKeeper.GetModuleAddress(types.ModuleName)
 		lotteryPoolFunds := am.bankKeeper.GetBalance(ctx, moduleAddress, "token")
 
 		if userHasLargestBet == true {

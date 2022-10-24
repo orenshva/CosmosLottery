@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -18,8 +17,6 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 	if found == true {
 		userAlreadyBetted = true
 	}
-
-	fmt.Printf("The get creator method returns: %s", msg.GetCreator())
 
 	// Check that the bet and lottery fee are valid
 	if msg.GetLotteryFee() != types.LotteryFee.Amount.Uint64() {
