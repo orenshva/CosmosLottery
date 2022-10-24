@@ -20,7 +20,7 @@ type BankKeeper interface {
 	SendCoinsFromModuleToAccount(
 		ctx sdk.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins,
 	) error
-	DelegateCoins(ctx sdk.Context, delegatorAddr, moduleAccAddr sdk.AccAddress, amt sdk.Coins) error
+	GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom string) sdk.Coin
 	HasBalance(ctx sdk.Context, addr sdk.AccAddress, amt sdk.Coin) bool
 	// Methods imported from bank should be defined here
 }

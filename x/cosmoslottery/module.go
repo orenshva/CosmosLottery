@@ -2,8 +2,11 @@ package cosmoslottery
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -170,6 +173,82 @@ func (am AppModule) BeginBlock(_ sdk.Context, _ abci.RequestBeginBlock) {}
 
 // EndBlock executes all ABCI EndBlock logic respective to the capability module. It
 // returns no validator updates.
-func (am AppModule) EndBlock(_ sdk.Context, _ abci.RequestEndBlock) []abci.ValidatorUpdate {
+func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.ValidatorUpdate {
+	// get TxCounter
+	currentTxCount, found := am.keeper.GetTxCounter(ctx)
+	if found == false {
+		panic("No TX counter. The lottery can't operate without one")
+	}
+
+	// check TxCounter
+	if currentTxCount.Count >= 10 {
+		concatBets := ""
+		totalBetsInThisRound := 0
+		// get the bet chart
+		completeBetChart := am.keeper.GetAllBetChart(ctx)
+
+		// iterate over all the bet chart entries and append the placed bets
+		for _, betChartEntry := range completeBetChart {
+			tempBet := betChartEntry.GetBet()
+			totalBetsInThisRound += int(tempBet)
+			concatBets += strconv.Itoa(int(tempBet))
+		}
+
+		// hash the result
+		hashFunc := sha256.New()
+		hashFunc.Write([]byte(concatBets))
+		hashResult := binary.BigEndian.Uint64(hashFunc.Sum(nil))
+
+		// decide the winner
+		winnerIndex := (hashResult ^ 0xFFFF) % currentTxCount.Count
+
+		// get the winner's address
+		winnerBetChartEntry := completeBetChart[int(winnerIndex)]
+		winnerAccountAddress, err := sdk.AccAddressFromBech32(winnerBetChartEntry.GetAccountName())
+		if err != nil {
+			fmt.Printf("Couldn't find winner's address. No payment performed")
+			goto funcend
+		}
+
+		// determine whether the winner had the largest/lowest bet
+		var userHasLargestBet bool = true
+		var userHasLowestBet bool = true
+
+		for index, betChartEntry := range completeBetChart {
+			if index == int(winnerIndex) {
+				continue
+			}
+
+			if betChartEntry.GetBet() > winnerBetChartEntry.GetBet() {
+				userHasLargestBet = false
+			} else if betChartEntry.GetBet() < winnerBetChartEntry.GetBet() {
+				userHasLowestBet = false
+			}
+		}
+
+		// get the amount of money in the lottery pool
+		moduleAddress, err := sdk.AccAddressFromBech32(types.ModuleName)
+		if err != nil {
+			panic("No module account (no lottery pool)")
+		}
+		lotteryPoolFunds := am.bankKeeper.GetBalance(ctx, moduleAddress, "token")
+
+		if userHasLargestBet == true {
+			// the winner has the highest bet
+			payoutAmount := lotteryPoolFunds.Amount
+			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", payoutAmount)))
+		} else if userHasLargestBet == false && userHasLowestBet == false {
+			// the winner has a middle-sized bet
+			//payoutAmount := totalBetsInThisRound -
+			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", payoutAmount)))
+		}
+
+		// Zero out TxCounter
+		currentTxCount.Count = 0
+		am.keeper.SetTxCounter(ctx, currentTxCount)
+
+	}
+
+funcend:
 	return []abci.ValidatorUpdate{}
 }
