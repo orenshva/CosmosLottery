@@ -49,6 +49,14 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 		return nil, err
 	}
 
+	// update the fee counter
+	currentFeeCount, found := k.GetFeeCounter(ctx)
+	if found == false {
+		panic("No TX counter. The lottery can't operate without one")
+	}
+	currentFeeCount.Count += 1
+	k.SetFeeCounter(ctx, currentFeeCount)
+
 	// Transfer the bet to the lottery pool
 	err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, bidderAcc, types.ModuleName, sdk.NewCoins(sdk.NewCoin("token", sdk.NewInt(int64(msg.GetBet())))))
 	if err != nil {
