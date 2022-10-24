@@ -24,3 +24,7 @@ func KeyPrefix(p string) []byte {
 const (
 	TxCounterKey = "TxCounter-value-"
 )
+
+const (
+	FeeCounterKey = "FeeCounter-value-"
+)

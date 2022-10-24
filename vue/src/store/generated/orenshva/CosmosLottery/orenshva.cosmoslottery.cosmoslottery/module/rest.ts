@@ -16,6 +16,11 @@ export interface CosmoslotteryBetChart {
   bet?: string;
 }
 
+export interface CosmoslotteryFeeCounter {
+  /** @format uint64 */
+  count?: string;
+}
+
 export type CosmoslotteryMsgEnterLotteryResponse = object;
 
 /**
@@ -40,6 +45,10 @@ export interface CosmoslotteryQueryAllBetChartResponse {
 
 export interface CosmoslotteryQueryGetBetChartResponse {
   betChart?: CosmoslotteryBetChart;
+}
+
+export interface CosmoslotteryQueryGetFeeCounterResponse {
+  FeeCounter?: CosmoslotteryFeeCounter;
 }
 
 export interface CosmoslotteryQueryGetTxCounterResponse {
@@ -366,6 +375,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryBetChart = (accountName: string, params: RequestParams = {}) =>
     this.request<CosmoslotteryQueryGetBetChartResponse, RpcStatus>({
       path: `/orenshva/CosmosLottery/cosmoslottery/bet_chart/${accountName}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryFeeCounter
+   * @summary Queries a FeeCounter by index.
+   * @request GET:/orenshva/CosmosLottery/cosmoslottery/fee_counter
+   */
+  queryFeeCounter = (params: RequestParams = {}) =>
+    this.request<CosmoslotteryQueryGetFeeCounterResponse, RpcStatus>({
+      path: `/orenshva/CosmosLottery/cosmoslottery/fee_counter`,
       method: "GET",
       format: "json",
       ...params,

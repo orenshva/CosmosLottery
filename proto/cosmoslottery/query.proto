@@ -7,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "cosmoslottery/params.proto";
 import "cosmoslottery/tx_counter.proto";
 import "cosmoslottery/bet_chart.proto";
+import "cosmoslottery/fee_counter.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/orenshva/CosmosLottery/x/cosmoslottery/types";
@@ -31,6 +32,10 @@ service Query {
 		option (google.api.http).get = "/orenshva/CosmosLottery/cosmoslottery/bet_chart";
 	}
 
+// Queries a FeeCounter by index.
+	rpc FeeCounter(QueryGetFeeCounterRequest) returns (QueryGetFeeCounterResponse) {
+		option (google.api.http).get = "/orenshva/CosmosLottery/cosmoslottery/fee_counter";
+	}
 // this line is used by starport scaffolding # 2
 }
 
@@ -66,4 +71,9 @@ message QueryAllBetChartResponse {
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
+message QueryGetFeeCounterRequest {}
+
+message QueryGetFeeCounterResponse {
+	FeeCounter FeeCounter = 1 [(gogoproto.nullable) = false];
+}
 // this line is used by starport scaffolding # 3

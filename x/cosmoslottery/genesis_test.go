@@ -25,6 +25,9 @@ func TestGenesis(t *testing.T) {
 				AccountName: "1",
 			},
 		},
+		FeeCounter: &types.FeeCounter{
+			Count: 79,
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -38,5 +41,6 @@ func TestGenesis(t *testing.T) {
 
 	require.Equal(t, genesisState.TxCounter, got.TxCounter)
 	require.ElementsMatch(t, genesisState.BetChartList, got.BetChartList)
+	require.Equal(t, genesisState.FeeCounter, got.FeeCounter)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

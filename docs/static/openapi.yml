@@ -29976,6 +29976,42 @@ paths:
           type: string
       tags:
         - Query
+  /orenshva/CosmosLottery/cosmoslottery/fee_counter:
+    get:
+      summary: Queries a FeeCounter by index.
+      operationId: OrenshvaCosmoslotteryCosmoslotteryFeeCounter
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              FeeCounter:
+                type: object
+                properties:
+                  count:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /orenshva/CosmosLottery/cosmoslottery/params:
     get:
       summary: Parameters queries the parameters of the module.
@@ -51763,6 +51799,12 @@ definitions:
       bet:
         type: string
         format: uint64
+  orenshva.cosmoslottery.cosmoslottery.FeeCounter:
+    type: object
+    properties:
+      count:
+        type: string
+        format: uint64
   orenshva.cosmoslottery.cosmoslottery.MsgEnterLotteryResponse:
     type: object
   orenshva.cosmoslottery.cosmoslottery.Params:
@@ -51815,6 +51857,15 @@ definitions:
           accountName:
             type: string
           bet:
+            type: string
+            format: uint64
+  orenshva.cosmoslottery.cosmoslottery.QueryGetFeeCounterResponse:
+    type: object
+    properties:
+      FeeCounter:
+        type: object
+        properties:
+          count:
             type: string
             format: uint64
   orenshva.cosmoslottery.cosmoslottery.QueryGetTxCounterResponse:

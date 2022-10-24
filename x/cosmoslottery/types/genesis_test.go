@@ -33,6 +33,9 @@ func TestGenesisState_Validate(t *testing.T) {
 						AccountName: "1",
 					},
 				},
+				FeeCounter: &types.FeeCounter{
+					Count: 13,
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,

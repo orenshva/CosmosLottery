@@ -17,6 +17,7 @@ func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		TxCounter:    nil,
 		BetChartList: []BetChart{},
+		FeeCounter:   nil,
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}

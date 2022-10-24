@@ -7,6 +7,7 @@ import {
   PageRequest,
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
+import { FeeCounter } from "../cosmoslottery/fee_counter";
 
 export const protobufPackage = "orenshva.cosmoslottery.cosmoslottery";
 
@@ -40,6 +41,12 @@ export interface QueryAllBetChartRequest {
 export interface QueryAllBetChartResponse {
   betChart: BetChart[];
   pagination: PageResponse | undefined;
+}
+
+export interface QueryGetFeeCounterRequest {}
+
+export interface QueryGetFeeCounterResponse {
+  FeeCounter: FeeCounter | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -572,6 +579,130 @@ export const QueryAllBetChartResponse = {
   },
 };
 
+const baseQueryGetFeeCounterRequest: object = {};
+
+export const QueryGetFeeCounterRequest = {
+  encode(
+    _: QueryGetFeeCounterRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetFeeCounterRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetFeeCounterRequest,
+    } as QueryGetFeeCounterRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryGetFeeCounterRequest {
+    const message = {
+      ...baseQueryGetFeeCounterRequest,
+    } as QueryGetFeeCounterRequest;
+    return message;
+  },
+
+  toJSON(_: QueryGetFeeCounterRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<QueryGetFeeCounterRequest>
+  ): QueryGetFeeCounterRequest {
+    const message = {
+      ...baseQueryGetFeeCounterRequest,
+    } as QueryGetFeeCounterRequest;
+    return message;
+  },
+};
+
+const baseQueryGetFeeCounterResponse: object = {};
+
+export const QueryGetFeeCounterResponse = {
+  encode(
+    message: QueryGetFeeCounterResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.FeeCounter !== undefined) {
+      FeeCounter.encode(message.FeeCounter, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetFeeCounterResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetFeeCounterResponse,
+    } as QueryGetFeeCounterResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.FeeCounter = FeeCounter.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetFeeCounterResponse {
+    const message = {
+      ...baseQueryGetFeeCounterResponse,
+    } as QueryGetFeeCounterResponse;
+    if (object.FeeCounter !== undefined && object.FeeCounter !== null) {
+      message.FeeCounter = FeeCounter.fromJSON(object.FeeCounter);
+    } else {
+      message.FeeCounter = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetFeeCounterResponse): unknown {
+    const obj: any = {};
+    message.FeeCounter !== undefined &&
+      (obj.FeeCounter = message.FeeCounter
+        ? FeeCounter.toJSON(message.FeeCounter)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetFeeCounterResponse>
+  ): QueryGetFeeCounterResponse {
+    const message = {
+      ...baseQueryGetFeeCounterResponse,
+    } as QueryGetFeeCounterResponse;
+    if (object.FeeCounter !== undefined && object.FeeCounter !== null) {
+      message.FeeCounter = FeeCounter.fromPartial(object.FeeCounter);
+    } else {
+      message.FeeCounter = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -586,6 +717,10 @@ export interface Query {
   BetChartAll(
     request: QueryAllBetChartRequest
   ): Promise<QueryAllBetChartResponse>;
+  /** Queries a FeeCounter by index. */
+  FeeCounter(
+    request: QueryGetFeeCounterRequest
+  ): Promise<QueryGetFeeCounterResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -642,6 +777,20 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllBetChartResponse.decode(new Reader(data))
+    );
+  }
+
+  FeeCounter(
+    request: QueryGetFeeCounterRequest
+  ): Promise<QueryGetFeeCounterResponse> {
+    const data = QueryGetFeeCounterRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "orenshva.cosmoslottery.cosmoslottery.Query",
+      "FeeCounter",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetFeeCounterResponse.decode(new Reader(data))
     );
   }
 }

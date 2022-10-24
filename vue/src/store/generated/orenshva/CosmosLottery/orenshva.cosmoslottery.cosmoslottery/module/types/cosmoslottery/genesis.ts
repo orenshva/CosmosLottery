@@ -2,6 +2,7 @@
 import { Params } from "../cosmoslottery/params";
 import { TxCounter } from "../cosmoslottery/tx_counter";
 import { BetChart } from "../cosmoslottery/bet_chart";
+import { FeeCounter } from "../cosmoslottery/fee_counter";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "orenshva.cosmoslottery.cosmoslottery";
@@ -10,8 +11,9 @@ export const protobufPackage = "orenshva.cosmoslottery.cosmoslottery";
 export interface GenesisState {
   params: Params | undefined;
   txCounter: TxCounter | undefined;
-  /** this line is used by starport scaffolding # genesis/proto/state */
   betChartList: BetChart[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  feeCounter: FeeCounter | undefined;
 }
 
 const baseGenesisState: object = {};
@@ -26,6 +28,9 @@ export const GenesisState = {
     }
     for (const v of message.betChartList) {
       BetChart.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.feeCounter !== undefined) {
+      FeeCounter.encode(message.feeCounter, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -46,6 +51,9 @@ export const GenesisState = {
           break;
         case 3:
           message.betChartList.push(BetChart.decode(reader, reader.uint32()));
+          break;
+        case 4:
+          message.feeCounter = FeeCounter.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -73,6 +81,11 @@ export const GenesisState = {
         message.betChartList.push(BetChart.fromJSON(e));
       }
     }
+    if (object.feeCounter !== undefined && object.feeCounter !== null) {
+      message.feeCounter = FeeCounter.fromJSON(object.feeCounter);
+    } else {
+      message.feeCounter = undefined;
+    }
     return message;
   },
 
@@ -91,6 +104,10 @@ export const GenesisState = {
     } else {
       obj.betChartList = [];
     }
+    message.feeCounter !== undefined &&
+      (obj.feeCounter = message.feeCounter
+        ? FeeCounter.toJSON(message.feeCounter)
+        : undefined);
     return obj;
   },
 
@@ -111,6 +128,11 @@ export const GenesisState = {
       for (const e of object.betChartList) {
         message.betChartList.push(BetChart.fromPartial(e));
       }
+    }
+    if (object.feeCounter !== undefined && object.feeCounter !== null) {
+      message.feeCounter = FeeCounter.fromPartial(object.feeCounter);
+    } else {
+      message.feeCounter = undefined;
     }
     return message;
   },

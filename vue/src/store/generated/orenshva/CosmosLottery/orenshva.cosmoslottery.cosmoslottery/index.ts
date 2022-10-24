@@ -1,11 +1,12 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
 import { BetChart } from "./module/types/cosmoslottery/bet_chart"
+import { FeeCounter } from "./module/types/cosmoslottery/fee_counter"
 import { Params } from "./module/types/cosmoslottery/params"
 import { TxCounter } from "./module/types/cosmoslottery/tx_counter"
 
 
-export { BetChart, Params, TxCounter };
+export { BetChart, FeeCounter, Params, TxCounter };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -47,9 +48,11 @@ const getDefaultState = () => {
 				TxCounter: {},
 				BetChart: {},
 				BetChartAll: {},
+				FeeCounter: {},
 				
 				_Structure: {
 						BetChart: getStructure(BetChart.fromPartial({})),
+						FeeCounter: getStructure(FeeCounter.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
 						TxCounter: getStructure(TxCounter.fromPartial({})),
 						
@@ -103,6 +106,12 @@ export default {
 						(<any> params).query=null
 					}
 			return state.BetChartAll[JSON.stringify(params)] ?? {}
+		},
+				getFeeCounter: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.FeeCounter[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -225,6 +234,28 @@ export default {
 				return getters['getBetChartAll']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryBetChartAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryFeeCounter({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryFeeCounter()).data
+				
+					
+				commit('QUERY', { query: 'FeeCounter', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryFeeCounter', payload: { options: { all }, params: {...key},query }})
+				return getters['getFeeCounter']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryFeeCounter API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
