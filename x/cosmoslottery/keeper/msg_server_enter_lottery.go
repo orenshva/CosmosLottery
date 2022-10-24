@@ -37,12 +37,6 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 		return nil, err
 	}
 
-	// Get the module's account address
-	moduleAccAddr, err := sdk.AccAddressFromBech32(types.ModuleName)
-	if err != nil {
-		return nil, err
-	}
-
 	// Check that the user has enough balance to pay the fee and place the bet
 	minAmount := msg.GetLotteryFee() + msg.GetBet()
 	if k.bankKeeper.HasBalance(ctx, bidderAcc, sdk.NewCoin("token", sdk.NewInt(int64(minAmount)))) == false {
@@ -50,7 +44,7 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 	}
 
 	// Deduct the lottery fee
-	err = k.bankKeeper.DelegateCoins(ctx, bidderAcc, moduleAccAddr, sdk.NewCoins(types.LotteryFee))
+	err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, bidderAcc, types.ModuleName, sdk.NewCoins(types.LotteryFee))
 	if err != nil {
 		return nil, err
 	}
