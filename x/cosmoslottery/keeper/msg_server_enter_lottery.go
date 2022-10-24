@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -18,10 +19,7 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 		userAlreadyBetted = true
 	}
 
-	// The validator that runs the chain can't participate
-	if msg.GetCreator() == "vlad" {
-		return nil, sdkerrors.Wrapf(types.ErrUserIsValidator, "%s", msg.GetCreator())
-	}
+	fmt.Printf("The get creator method returns: %s", msg.GetCreator())
 
 	// Check that the bet and lottery fee are valid
 	if msg.GetLotteryFee() != types.LotteryFee.Amount.Uint64() {
@@ -57,7 +55,7 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 	// update the fee counter
 	currentFeeCount, found := k.GetFeeCounter(ctx)
 	if found == false {
-		panic("No TX counter. The lottery can't operate without one")
+		panic("No fee counter. The lottery can't operate without one")
 	}
 	currentFeeCount.Count += 1
 	k.SetFeeCounter(ctx, currentFeeCount)

@@ -13,5 +13,4 @@ var (
 	ErrBetTooSmall                = sdkerrors.Register(ModuleName, 1106, "player's bet is lower than the minimum bet")
 	ErrBetTooBig                  = sdkerrors.Register(ModuleName, 1107, "player's bet is bigger than the maximum bet")
 	ErrUserDoesNotHaveEnoughFunds = sdkerrors.Register(ModuleName, 1108, "player does not have enough funds to pay the lottery fee and the desired bet")
-	ErrUserIsValidator            = sdkerrors.Register(ModuleName, 1109, "validators can't participate in the lottery")
 )

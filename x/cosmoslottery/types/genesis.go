@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -15,9 +16,9 @@ var MaxBet sdk.Coin = sdk.NewCoin("token", sdk.NewInt(100))
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		TxCounter:    nil,
+		TxCounter:    &TxCounter{Count: 0},
 		BetChartList: []BetChart{},
-		FeeCounter:   nil,
+		FeeCounter:   &FeeCounter{Count: 0},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}

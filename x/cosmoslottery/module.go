@@ -175,6 +175,8 @@ func (am AppModule) BeginBlock(_ sdk.Context, _ abci.RequestBeginBlock) {}
 // returns no validator updates.
 func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.ValidatorUpdate {
 	// get TxCounter
+	// initTxCounter := types.TxCounter{Count: 0}
+	// am.keeper.SetTxCounter(ctx, initTxCounter)
 	currentTxCount, found := am.keeper.GetTxCounter(ctx)
 	if found == false {
 		panic("No TX counter. The lottery can't operate without one")
