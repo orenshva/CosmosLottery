@@ -241,17 +241,21 @@ func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.Val
 		// get the amount of money in the lottery pool
 		moduleAddress := am.accountKeeper.GetModuleAddress(types.ModuleName)
 		lotteryPoolFunds := am.bankKeeper.GetBalance(ctx, moduleAddress, "token")
-
+		var payoutAmountUint64 uint64 = 0
 		if userHasLargestBet == true {
 			// the winner has the highest bet
 			payoutAmount := lotteryPoolFunds.Amount
+			payoutAmountUint64 = uint64(payoutAmount.Int64())
 			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", payoutAmount)))
 		} else if userHasLargestBet == false && userHasLowestBet == false {
 			// the winner has a mid-sized bet
 			feeCount := feeCounter.GetCount()
-			payoutAmount := totalBetsInThisRound - feeCount*types.LotteryFee.Amount.Uint64()
-			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", sdk.NewInt(int64(payoutAmount)))))
+			payoutAmountUint64 = totalBetsInThisRound - feeCount*types.LotteryFee.Amount.Uint64()
+			am.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAccountAddress, sdk.NewCoins(sdk.NewCoin("token", sdk.NewInt(int64(payoutAmountUint64)))))
 		}
+
+		// Print the winner and his reward
+		fmt.Printf("The winner is %s. The prize money is %d tokens!", winnerAccountAddress, payoutAmountUint64)
 
 		// Zero out TxCounter
 		currentTxCount.Count = 0

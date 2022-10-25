@@ -18,6 +18,16 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 		userAlreadyBetted = true
 	}
 
+	// get validator address
+	// for _, vi := range ctx.VoteInfos() {
+	// 	valid := vi.GetValidator()
+	// 	addr, err := sdk.AccAddressFromHex(hex.EncodeToString(valid.GetAddress()))
+	// 	if err != nil {
+	// 		fmt.Printf("NOOOOOOOOOOOOO WHATHWAHTWHAWTHAHTAWHTA")
+	// 	}
+	// 	fmt.Printf("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO addr: %s\n", addr.String())
+	// }
+
 	// Check that the bet and lottery fee are valid
 	if msg.GetLotteryFee() != types.LotteryFee.Amount.Uint64() {
 		return nil, sdkerrors.Wrapf(types.ErrBadLotteryFee, "%s", msg.GetLotteryFee())
@@ -88,7 +98,6 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 		k.SetBetChart(ctx, userBetChart)
 	}
 
-	// ctx.EventManager().EmitEvent()
 	_ = ctx
 	return &types.MsgEnterLotteryResponse{}, nil
 }
