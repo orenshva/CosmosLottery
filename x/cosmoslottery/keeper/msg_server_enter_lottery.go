@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"encoding/hex"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -18,15 +19,10 @@ func (k msgServer) EnterLottery(goCtx context.Context, msg *types.MsgEnterLotter
 		userAlreadyBetted = true
 	}
 
-	// get validator address
-	// for _, vi := range ctx.VoteInfos() {
-	// 	valid := vi.GetValidator()
-	// 	addr, err := sdk.AccAddressFromHex(hex.EncodeToString(valid.GetAddress()))
-	// 	if err != nil {
-	// 		fmt.Printf("NOOOOOOOOOOOOO WHATHWAHTWHAWTHAHTAWHTA")
-	// 	}
-	// 	fmt.Printf("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO addr: %s\n", addr.String())
-	// }
+	// Prevent the block proposer from participating
+	if hex.EncodeToString(ctx.BlockHeader().ProposerAddress) == msg.GetCreator() {
+		return nil, sdkerrors.Wrapf(types.ErrUserIsBlockProposer, "%s", msg.GetCreator())
+	}
 
 	// Check that the bet and lottery fee are valid
 	if msg.GetLotteryFee() != types.LotteryFee.Amount.Uint64() {
